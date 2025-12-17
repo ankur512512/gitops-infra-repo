@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-app-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ankur512512/gitops-infra-repo
+    targetRevision: main
+    path: apps/gitops-app/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-app
+  labels:
+    app.kubernetes.io/name: gitops-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gitops-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: gitops-app
+    spec:
+      containers:
+        - name: gitops-app
+          image: ghcr.io/ankur512512/gitops-app-repo:main
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: ENV
+              value: "base"
+            - name: PORT
+              value: "8000"
+            # IMPORTANT: this should be different per env overlay
+            - name: DATABASE_URL
+              value: "postgresql+psycopg://app:app@db:5432/appdb"
+            # For demo; later we’ll move to sealed-secrets
+            - name: JWT_SECRET
+              value: "change-me"
+            - name: JWT_ISSUER
+              value: "gitops-app"
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
