@@ -19,13 +19,4 @@ patches:
         path: /spec/template/spec/containers/0/env/2/value
         value: postgresql+psycopg://app:app@db:5432/appdb
 
-  - target:
-      kind: HTTPRoute
-      name: gitops-app
-    patch: |-
-      - op: replace
-        path: /spec/parentRefs/0/sectionName
-        value: app-dev-https
-      - op: replace
-        path: /spec/hostnames/0
-        value: app-dev.ankur.theworkpc.com
+  - path: patch-httproute-hostname.yaml

@@ -16,13 +16,4 @@ patches:
         path: /spec/template/spec/containers/0/env/0/value
         value: prod
 
-  - target:
-      kind: HTTPRoute
-      name: gitops-app
-    patch: |-
-      - op: replace
-        path: /spec/parentRefs/0/sectionName
-        value: app-prod-https
-      - op: replace
-        path: /spec/hostnames/0
-        value: app.ankur.theworkpc.com
+  - path: patch-httproute-hostname.yaml

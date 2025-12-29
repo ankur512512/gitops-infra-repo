@@ -4,11 +4,9 @@ metadata:
   name: gitops-app
 spec:
   parentRefs:
-    - name: traefik-gateway
-      namespace: default
-      sectionName: web   # overlays will change this to dev/stage/prod https listener
-  hostnames:
-    - example.invalid     # overlays will change this
+    - name: shared-gateway
+      namespace: gateway
+      sectionName: https
   rules:
     - matches:
         - path:
