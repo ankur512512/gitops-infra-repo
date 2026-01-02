@@ -5,7 +5,7 @@ resources:
 
 images:
   - name: ghcr.io/ankur512512/gitops-app-repo
-    newTag: main
+    newTag: sha-0000000
 
 patches:
   - target:
