@@ -1,0 +1,14 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: gitops-app
+  namespace: kargo
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/ankur512512/gitops-app-repo
+        # Pick tags like sha-abcdef1 (your CI format)
+        semverConstraint: "" # not used for sha tags
+        discoveryLimit: 20
+        tagSelection:
+          matchRegex: "^sha-[0-9a-f]{7}$"

@@ -1,0 +1,42 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: kargo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: gitops-app
+  promotionTemplate:
+    spec:
+      steps:
+        - uses: promotion-task
+          config:
+            name: update-image-tag
+  # dev auto-promote
+  autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: stage
+  namespace: kargo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Stage
+        name: dev
+  autoPromotionEnabled: false
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod
+  namespace: kargo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Stage
+        name: stage
+  autoPromotionEnabled: false

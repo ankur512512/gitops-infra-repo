@@ -1,0 +1,31 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: update-image-tag
+  namespace: kargo
+spec:
+  vars:
+    - name: imageRepo
+      value: ghcr.io/ankur512512/gitops-app-repo
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+        checkout:
+          - branch: main
+
+    # DEV overlay update
+    - uses: kustomize-set-image
+      config:
+        path: apps/gitops-app/overlays/dev
+        images:
+          - image: ${{ vars.imageRepo }}
+            newTag: ${{ image.tag }}
+
+    - uses: git-commit
+      config:
+        message: "chore(dev): promote gitops-app to ${{ image.tag }}"
+
+    - uses: git-push
+      config:
+        branch: main
