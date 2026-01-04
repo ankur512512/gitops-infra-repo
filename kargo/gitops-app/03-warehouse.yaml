@@ -1,0 +1,14 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: gitops-app
+  namespace: gitops
+spec:
+  interval: 5m0s
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/ankur512512/gitops-app-repo
+        # For a simple "follow main" demo:
+        imageSelectionStrategy: Digest
+        constraint: main
+        strictSemvers: false

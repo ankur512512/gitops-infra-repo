@@ -1,0 +1,13 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: gitops
+  namespace: gitops
+spec:
+  promotionPolicies:
+    - stage: dev
+      autoPromotionEnabled: true
+    - stage: stage
+      autoPromotionEnabled: true
+    - stage: prod
+      autoPromotionEnabled: false
