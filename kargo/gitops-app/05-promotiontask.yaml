@@ -26,7 +26,7 @@ spec:
         images:
           - image: ${{ vars.imageRepo }}
             # Use the Freight image tag from the Warehouse
-            newTag: ${{ freight.images[vars.imageRepo].tag }}
+            newTag: ${{ freight.images[0].tag }}
     - uses: git-commit
       config:
         path: ./repo
@@ -67,7 +67,7 @@ spec:
         path: ./repo/${{ vars.overlayPath }}
         images:
           - image: ${{ vars.imageRepo }}
-            newTag: ${{ freight.images[vars.imageRepo].tag }}
+            newTag: ${{ freight.images[0].tag }}
     - uses: git-commit
       config:
         path: ./repo
@@ -108,7 +108,7 @@ spec:
         path: ./repo/${{ vars.overlayPath }}
         images:
           - image: ${{ vars.imageRepo }}
-            newTag: ${{ freight.images[vars.imageRepo].tag }}
+            newTag: ${{ freight.images[0].tag }}
     - uses: git-commit
       config:
         path: ./repo

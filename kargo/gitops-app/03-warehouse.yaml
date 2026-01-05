@@ -8,7 +8,7 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/ankur512512/gitops-app-repo
-        # For a simple "follow main" demo:
-        imageSelectionStrategy: Digest
-        constraint: main
+        imageSelectionStrategy: NewestBuild
+        allowTags: ^sha-[0-9a-f]{7}$
         strictSemvers: false
+        discoveryLimit: 20
