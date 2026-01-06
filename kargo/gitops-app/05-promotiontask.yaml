@@ -26,11 +26,11 @@ spec:
         images:
           - image: ${{ vars.imageRepo }}
             # Use the Freight image tag from the Warehouse
-            newTag: ${{ freight.images[0].tag }}
+            newTag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       config:
         path: ./repo
-        message: "dev: promote to ${{ freight.images[vars.imageRepo].tag }}"
+        message: "dev: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
     - uses: git-push
       config:
         path: ./repo
@@ -67,11 +67,11 @@ spec:
         path: ./repo/${{ vars.overlayPath }}
         images:
           - image: ${{ vars.imageRepo }}
-            newTag: ${{ freight.images[0].tag }}
+            newTag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       config:
         path: ./repo
-        message: "stage: promote to ${{ freight.images[vars.imageRepo].tag }}"
+        message: "stage: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
     - uses: git-push
       config:
         path: ./repo
@@ -108,11 +108,11 @@ spec:
         path: ./repo/${{ vars.overlayPath }}
         images:
           - image: ${{ vars.imageRepo }}
-            newTag: ${{ freight.images[0].tag }}
+            newTag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       config:
         path: ./repo
-        message: "prod: promote to ${{ freight.images[vars.imageRepo].tag }}"
+        message: "prod: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
     - uses: git-push
       config:
         path: ./repo
