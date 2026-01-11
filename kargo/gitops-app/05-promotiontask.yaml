@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
 metadata:
-  name: update-image-tag-dev
+  name: update-image-tag
   namespace: gitops
 spec:
   vars:
@@ -10,51 +10,8 @@ spec:
     - name: imageRepo
       value: ghcr.io/ankur512512/gitops-app-repo
     - name: overlayPath
-      value: apps/gitops-app/overlays/dev
     - name: argoApp
-      value: gitops-app-dev
-  steps:
-    - uses: git-clone
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        checkout:
-          - branch: main
-            path: ./repo
-    - uses: kustomize-set-image
-      config:
-        path: ./repo/${{ vars.overlayPath }}
-        images:
-          - image: ${{ vars.imageRepo }}
-            # Use the Freight image tag from the Warehouse
-            tag: ${{ imageFrom(vars.imageRepo).Tag }}
-    - uses: git-commit
-      config:
-        path: ./repo
-        message: "dev: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
-    - uses: git-push
-      config:
-        path: ./repo
-    - uses: argocd-update
-      config:
-        apps:
-          - name: ${{ vars.argoApp }}
-
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: PromotionTask
-metadata:
-  name: update-image-tag-stage
-  namespace: gitops
-spec:
-  vars:
-    - name: gitRepo
-      value: https://github.com/ankur512512/gitops-infra-repo.git
-    - name: imageRepo
-      value: ghcr.io/ankur512512/gitops-app-repo
-    - name: overlayPath
-      value: apps/gitops-app/overlays/stage
-    - name: argoApp
-      value: gitops-app-stage
+    - name: stageName
   steps:
     - uses: git-clone
       config:
@@ -71,48 +28,7 @@ spec:
     - uses: git-commit
       config:
         path: ./repo
-        message: "stage: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
-    - uses: git-push
-      config:
-        path: ./repo
-    - uses: argocd-update
-      config:
-        apps:
-          - name: ${{ vars.argoApp }}
-
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: PromotionTask
-metadata:
-  name: update-image-tag-prod
-  namespace: gitops
-spec:
-  vars:
-    - name: gitRepo
-      value: https://github.com/ankur512512/gitops-infra-repo.git
-    - name: imageRepo
-      value: ghcr.io/ankur512512/gitops-app-repo
-    - name: overlayPath
-      value: apps/gitops-app/overlays/prod
-    - name: argoApp
-      value: gitops-app-prod
-  steps:
-    - uses: git-clone
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        checkout:
-          - branch: main
-            path: ./repo
-    - uses: kustomize-set-image
-      config:
-        path: ./repo/${{ vars.overlayPath }}
-        images:
-          - image: ${{ vars.imageRepo }}
-            tag: ${{ imageFrom(vars.imageRepo).Tag }}
-    - uses: git-commit
-      config:
-        path: ./repo
-        message: "prod: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
+        message: "${{ vars.stageName }}: promote to ${{ imageFrom(vars.imageRepo).Tag }}"
     - uses: git-push
       config:
         path: ./repo
