@@ -4,11 +4,11 @@ metadata:
   name: gitops
   namespace: gitops
 spec:
-  credentials:
-    git:
-      - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-        secretRef:
-          name: kargo-git-credentials
+#   credentials:
+#     git:
+#       - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+#         secretRef:
+#           name: kargo-git-credentials
   promotionPolicies:
     - stage: dev
       autoPromotionEnabled: true

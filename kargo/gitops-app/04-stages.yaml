@@ -12,16 +12,16 @@ spec:
         direct: true
   promotionTemplate:
     spec:
+      vars:
+        - name: stageName
+          value: dev
+        - name: overlayPath
+          value: apps/gitops-app/overlays/dev
+        - name: argoApp
+          value: gitops-app-dev
       steps:
         - task:
             name: update-image-tag
-            vars:
-              - name: stageName
-                value: dev
-              - name: overlayPath
-                value: apps/gitops-app/overlays/dev
-              - name: argoApp
-                value: gitops-app-dev
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -38,16 +38,16 @@ spec:
           - dev
   promotionTemplate:
     spec:
+      vars:
+        - name: stageName
+          value: stage
+        - name: overlayPath
+          value: apps/gitops-app/overlays/stage
+        - name: argoApp
+          value: gitops-app-stage
       steps:
         - task:
             name: update-image-tag
-            vars:
-              - name: stageName
-                value: stage
-              - name: overlayPath
-                value: apps/gitops-app/overlays/stage
-              - name: argoApp
-                value: gitops-app-stage
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -64,13 +64,13 @@ spec:
           - stage
   promotionTemplate:
     spec:
+      vars:
+        - name: stageName
+          value: prod
+        - name: overlayPath
+          value: apps/gitops-app/overlays/prod
+        - name: argoApp
+          value: gitops-app-prod
       steps:
         - task:
             name: update-image-tag
-            vars:
-              - name: stageName
-                value: prod
-              - name: overlayPath
-                value: apps/gitops-app/overlays/prod
-              - name: argoApp
-                value: gitops-app-prod
