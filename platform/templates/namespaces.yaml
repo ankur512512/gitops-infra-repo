@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitops-dev
+  labels:
+    # Allow Kargo/ArgoCD to manage
+    argocd.argoproj.io/instance: platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitops-stage
+  labels:
+    argocd.argoproj.io/instance: platform
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitops-prod
+  labels:
+    argocd.argoproj.io/instance: platform

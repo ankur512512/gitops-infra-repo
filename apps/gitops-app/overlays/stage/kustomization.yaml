@@ -1,19 +1,5 @@
-namespace: gitops-stage
-
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 resources:
-  - ../../base
-
-images:
-  - name: ghcr.io/ankur512512/gitops-app-repo
-    newTag: main
-
-patches:
-  - target:
-      kind: Deployment
-      name: gitops-app
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/containers/0/env/0/value
-        value: stage
-
-  - path: patch-httproute-hostname.yaml
+- ../../base
+namespace: gitops-stage
