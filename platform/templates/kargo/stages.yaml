@@ -2,9 +2,9 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: gitops-repo
-  namespace: kargo
+  namespace: gitops-control
 spec:
-  project: gitops
+  project: gitops-control
   subscriptions:
   - git:
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -16,11 +16,16 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: kargo
+  namespace: gitops-control
 spec:
-  project: gitops
+  project: gitops-control
   subscriptions:
     warehouse: gitops-repo
+  # requestedFreight: [] # Try removing if it was causing issues, or adding.
+                         # The error said "must be array", implying it saw null.
+                         # In Go, nil slice serializes to null in JSON sometimes.
+                         # Providing empty list might help.
+  requestedFreight: []
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -34,12 +39,13 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: stage
-  namespace: kargo
+  namespace: gitops-control
 spec:
-  project: gitops
+  project: gitops-control
   subscriptions:
     upstreamStages:
     - name: dev
+  requestedFreight: []
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -53,12 +59,13 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: prod
-  namespace: kargo
+  namespace: gitops-control
 spec:
-  project: gitops
+  project: gitops-control
   subscriptions:
     upstreamStages:
     - name: stage
+  requestedFreight: []
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git

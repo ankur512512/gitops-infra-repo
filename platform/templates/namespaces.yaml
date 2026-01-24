@@ -3,7 +3,6 @@ kind: Namespace
 metadata:
   name: gitops-dev
   labels:
-    # Allow Kargo/ArgoCD to manage
     argocd.argoproj.io/instance: platform
 ---
 apiVersion: v1
@@ -19,3 +18,12 @@ metadata:
   name: gitops-prod
   labels:
     argocd.argoproj.io/instance: platform
+---
+# The Project Namespace for Kargo
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitops-control
+  labels:
+    argocd.argoproj.io/instance: platform
+    kargo.akuity.io/project: "true" # Label it as a project just in case
