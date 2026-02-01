@@ -19,13 +19,12 @@ metadata:
   namespace: gitops-control
 spec:
   project: gitops-control
-  subscriptions:
-    warehouse: gitops-repo
-  # requestedFreight: [] # Try removing if it was causing issues, or adding.
-                         # The error said "must be array", implying it saw null.
-                         # In Go, nil slice serializes to null in JSON sometimes.
-                         # Providing empty list might help.
-  requestedFreight: []
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gitops-repo
+    sources:
+      direct: true
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -43,9 +42,13 @@ metadata:
 spec:
   project: gitops-control
   subscriptions:
-    upstreamStages:
-    - name: dev
-  requestedFreight: []
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gitops-repo
+    sources:
+      stages:
+      - dev
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -63,9 +66,13 @@ metadata:
 spec:
   project: gitops-control
   subscriptions:
-    upstreamStages:
-    - name: stage
-  requestedFreight: []
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gitops-repo
+    sources:
+      stages:
+      - stage
   promotionMechanisms:
     gitRepoUpdates:
     - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
