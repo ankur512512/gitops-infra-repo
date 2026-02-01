@@ -12,3 +12,15 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+    hostname: "*.ankur.theworkpc.com"
+  - name: https
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: All
+    hostname: "*.ankur.theworkpc.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: gateway-tls

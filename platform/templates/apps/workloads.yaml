@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-dev
+  namespace: argocd
+  labels:
+    env: dev
+    kargo.akuity.io/stage: dev
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+    targetRevision: main
+    path: apps/gitops-app/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-stage
+  namespace: argocd
+  labels:
+    env: stage
+    kargo.akuity.io/stage: stage
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+    targetRevision: main
+    path: apps/gitops-app/overlays/stage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitops-prod
+  namespace: argocd
+  labels:
+    env: prod
+    kargo.akuity.io/stage: prod
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+    targetRevision: main
+    path: apps/gitops-app/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
