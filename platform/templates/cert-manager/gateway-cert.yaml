@@ -5,10 +5,8 @@ metadata:
   namespace: default
 spec:
   secretName: gateway-tls
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
   issuerRef:
-    name: local-ca-issuer
+    name: letsencrypt-prod
     kind: ClusterIssuer
   commonName: "*.ankur.theworkpc.com"
   dnsNames:
