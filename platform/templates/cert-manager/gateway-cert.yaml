@@ -8,7 +8,7 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: "*.ankur.theworkpc.com"
+  commonName: "argocd.ankur.theworkpc.com" # One of them must be CN
   dnsNames:
-  - "*.ankur.theworkpc.com"
-  - "ankur.theworkpc.com"
+  - "argocd.ankur.theworkpc.com"
+  - "kargo.ankur.theworkpc.com"
