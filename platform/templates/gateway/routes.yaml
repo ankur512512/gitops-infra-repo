@@ -36,4 +36,4 @@ spec:
         value: /
     backendRefs:
     - name: kargo-api
-      port: 443
+      port: 80
