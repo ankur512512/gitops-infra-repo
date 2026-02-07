@@ -1,0 +1,26 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: debug-stage
+  namespace: gitops-control
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gitops-repo
+    sources:
+      direct: true
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        as: debug-step
+        config:
+          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+          checkout:
+          - branch: main
+            path: out
+      - uses: git-commit
+        config:
+          path: out
+          message: ${{ vars.commits["gitops-repo"].id }}
