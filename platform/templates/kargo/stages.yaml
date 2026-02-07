@@ -43,16 +43,12 @@ spec:
           path: out/apps/gitops-app/overlays/dev
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
+            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
-
-            Promoting Freight: {{ "${{ freight.name }}" }}
-            App Commit: {{ "${{ freight.commits.app }}" }}
-            Infra Commit: {{ "${{ freight.commits.infra }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
       - uses: git-push
         config:
           path: out
@@ -85,12 +81,12 @@ spec:
           path: out/apps/gitops-app/overlays/stage
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
+            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
       - uses: git-push
         config:
           path: out
@@ -123,12 +119,12 @@ spec:
           path: out/apps/gitops-app/overlays/prod
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
+            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
       - uses: git-push
         config:
           path: out
