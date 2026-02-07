@@ -20,6 +20,12 @@ spec:
           checkout:
           - branch: main
             path: out
+      - uses: kustomize-set-image
+        config:
+          path: out/apps/gitops-app/overlays/dev
+          images:
+          - image: nginx
+            tag: ${{ freight.commits[0].id }}
       - uses: git-commit
         config:
           path: out
