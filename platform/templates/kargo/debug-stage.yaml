@@ -23,5 +23,9 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message:
-            {{ "Project: ${{ ctx.project }}\nStage: ${{ ctx.stage }}\nVars: ${{ vars | keys }}\nCtx: ${{ ctx | keys }}\nState: ${{ state | keys }}\nOutputs: ${{ outputs | keys }}" | quote }}
+          message: |
+            ${{ ctx.stage }}: Update image tag to ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouseName)).Tag }}
+
+            Automated promotion triggered by Kargo.
+            Freight: ${{ ctx.freight.id }}
+            Author: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouseName)).Author }}
