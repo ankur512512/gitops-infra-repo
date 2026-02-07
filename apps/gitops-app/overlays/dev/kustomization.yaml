@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
 - ../../base
 namespace: gitops-dev
+images:
+- name: nginx
+  newTag: 223385fc8365dcda2dee360b7dc1a02727d44e41
