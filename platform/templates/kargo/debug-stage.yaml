@@ -24,4 +24,4 @@ spec:
         config:
           path: out
           message:
-            {{ "PromotionFreightName: ${{ ctx.promotion.freight.name }}\nWarehouseCommits: ${{ warehouse[\"gitops-repo\"].commits[0].id }}\nCommitMapKeys: ${{ commits | keys }}\nFreightCommitsKeys: ${{ freight.commits | keys }}" | quote }}
+            {{ "FreightCommit: ${{ freight.commit }}\nCtxFreightCommit: ${{ ctx.freight.commit }}\nCommitVar: ${{ commit }}\nCommitID: ${{ commit.id }}" | quote }}
