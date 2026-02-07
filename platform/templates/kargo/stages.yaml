@@ -4,12 +4,17 @@ metadata:
   name: gitops-repo
   namespace: gitops-control
 spec:
+  freightCreationPolicy: Automatic
+  interval: 5m0s
   subscriptions:
   - git:
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
       branch: main
-      directories:
+      includePaths:
       - apps/gitops-app/base
+      commitSelectionStrategy: NewestFromBranch
+      discoveryLimit: 20
+      strictSemvers: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
