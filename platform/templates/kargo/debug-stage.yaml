@@ -24,4 +24,4 @@ spec:
         config:
           path: out
           message:
-            {{ "FreightCommit: ${{ freight.commit }}\nCtxFreightCommit: ${{ ctx.freight.commit }}\nCommitVar: ${{ commit }}\nCommitID: ${{ commit.id }}" | quote }}
+            {{ "CommitsListID: ${{ commits[0].id }}\nCommitsMapID: ${{ commits[\"gitops-repo\"].id }}\nImagesListTag: ${{ images[0].tag }}\nImagesMapTag: ${{ images[\"gitops-repo\"].tag }}" | quote }}
