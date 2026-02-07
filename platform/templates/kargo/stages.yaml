@@ -28,8 +28,14 @@ spec:
       direct: true
   promotionTemplate:
     spec:
+      vars:
+      - name: warehouseName
+        value: gitops-repo
+      - name: imageRepo
+        value: nginx
       steps:
       - uses: git-clone
+        as: clone
         config:
           repoURL: https://github.com/ankur512512/gitops-infra-repo.git
           checkout:
@@ -40,11 +46,16 @@ spec:
           path: out/apps/gitops-app/overlays/dev
           images:
           - image: nginx
-            tag: {{ "${{ commits.gitops.id }}" }}
+            tag: {{ "${{ outputs.clone.commits.out }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to dev: ${{ commits.gitops.id }}" | quote }}
+          message: |
+            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
+
+            Automated promotion triggered by Kargo.
+            Freight: {{ "${{ ctx.promotion.freight }}" }}
+            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
@@ -64,8 +75,14 @@ spec:
       - dev
   promotionTemplate:
     spec:
+      vars:
+      - name: warehouseName
+        value: gitops-repo
+      - name: imageRepo
+        value: nginx
       steps:
       - uses: git-clone
+        as: clone
         config:
           repoURL: https://github.com/ankur512512/gitops-infra-repo.git
           checkout:
@@ -76,11 +93,16 @@ spec:
           path: out/apps/gitops-app/overlays/stage
           images:
           - image: nginx
-            tag: {{ "${{ commits.gitops.id }}" }}
+            tag: {{ "${{ outputs.clone.commits.out }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to stage: ${{ commits.gitops.id }}" | quote }}
+          message: |
+            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
+
+            Automated promotion triggered by Kargo.
+            Freight: {{ "${{ ctx.promotion.freight }}" }}
+            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
@@ -100,8 +122,14 @@ spec:
       - stage
   promotionTemplate:
     spec:
+      vars:
+      - name: warehouseName
+        value: gitops-repo
+      - name: imageRepo
+        value: nginx
       steps:
       - uses: git-clone
+        as: clone
         config:
           repoURL: https://github.com/ankur512512/gitops-infra-repo.git
           checkout:
@@ -112,11 +140,16 @@ spec:
           path: out/apps/gitops-app/overlays/prod
           images:
           - image: nginx
-            tag: {{ "${{ commits.gitops.id }}" }}
+            tag: {{ "${{ outputs.clone.commits.out }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to prod: ${{ commits.gitops.id }}" | quote }}
+          message: |
+            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
+
+            Automated promotion triggered by Kargo.
+            Freight: {{ "${{ ctx.promotion.freight }}" }}
+            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
