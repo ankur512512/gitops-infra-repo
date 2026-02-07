@@ -12,6 +12,7 @@ spec:
       labels:
         app: gitops-app
         demo: kargo-promotion
+        version: "1.9.2-final"
     spec:
       containers:
       - name: nginx
