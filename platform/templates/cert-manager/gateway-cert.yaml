@@ -12,3 +12,6 @@ spec:
   dnsNames:
   - "argocd.ankur.theworkpc.com"
   - "kargo.ankur.theworkpc.com"
+  - "devops.ankur.theworkpc.com"
+  - "stage.devops.ankur.theworkpc.com"
+  - "dev.devops.ankur.theworkpc.com"

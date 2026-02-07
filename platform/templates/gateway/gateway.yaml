@@ -24,3 +24,21 @@ spec:
       mode: Terminate
       certificateRefs:
       - name: gateway-tls
+  - name: http-nested
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All
+    hostname: "*.devops.ankur.theworkpc.com"
+  - name: https-nested
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: All
+    hostname: "*.devops.ankur.theworkpc.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: gateway-tls
