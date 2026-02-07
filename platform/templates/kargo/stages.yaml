@@ -8,11 +8,13 @@ spec:
   interval: 5m0s
   subscriptions:
   - git:
-      alias: gitops
+      alias: infra
       branch: main
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-      includePaths:
-      - apps/gitops-app/base
+  - git:
+      alias: app
+      branch: main
+      repoURL: https://github.com/ankur512512/gitops-app-repo.git
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -28,9 +30,6 @@ spec:
       direct: true
   promotionTemplate:
     spec:
-      vars:
-      - name: imageRepo
-        value: nginx
       steps:
       - uses: git-clone
         as: clone
@@ -43,15 +42,17 @@ spec:
         config:
           path: out/apps/gitops-app/overlays/dev
           images:
-          - image: nginx
-            tag: {{ "${{ outputs.clone.commits.out }}" }}
+          - image: ghcr.io/ankur512512/gitops-app-repo
+            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
 
-            Automated promotion triggered by Kargo.
+            Promoting Freight: {{ "${{ freight.name }}" }}
+            App Commit: {{ "${{ freight.commits.app }}" }}
+            Infra Commit: {{ "${{ freight.commits.infra }}" }}
       - uses: git-push
         config:
           path: out
@@ -71,9 +72,6 @@ spec:
       - dev
   promotionTemplate:
     spec:
-      vars:
-      - name: imageRepo
-        value: nginx
       steps:
       - uses: git-clone
         as: clone
@@ -86,15 +84,13 @@ spec:
         config:
           path: out/apps/gitops-app/overlays/stage
           images:
-          - image: nginx
-            tag: {{ "${{ outputs.clone.commits.out }}" }}
+          - image: ghcr.io/ankur512512/gitops-app-repo
+            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
-
-            Automated promotion triggered by Kargo.
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
       - uses: git-push
         config:
           path: out
@@ -114,9 +110,6 @@ spec:
       - stage
   promotionTemplate:
     spec:
-      vars:
-      - name: imageRepo
-        value: nginx
       steps:
       - uses: git-clone
         as: clone
@@ -129,15 +122,13 @@ spec:
         config:
           path: out/apps/gitops-app/overlays/prod
           images:
-          - image: nginx
-            tag: {{ "${{ outputs.clone.commits.out }}" }}
+          - image: ghcr.io/ankur512512/gitops-app-repo
+            tag: {{ "sha-${{ (freight.commits.app | substr 0 7) }}" }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
-
-            Automated promotion triggered by Kargo.
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ (freight.commits.app | substr 0 7) }}" }}
       - uses: git-push
         config:
           path: out
