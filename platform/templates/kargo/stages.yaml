@@ -10,6 +10,7 @@ spec:
   - git:
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
       branch: main
+      alias: gitops
       includePaths:
       - apps/gitops-app/base
       commitSelectionStrategy: NewestFromBranch
@@ -42,10 +43,11 @@ spec:
           path: out/apps/gitops-app/overlays/dev
           images:
           - image: nginx
+            tag: ${{ freight.commits.gitops.id }}
       - uses: git-commit
         config:
           path: out
-          message: "Promoted to dev"
+          message: "Promoted to dev: ${{ freight.commits.gitops.id }}"
       - uses: git-push
         config:
           path: out
@@ -77,10 +79,11 @@ spec:
           path: out/apps/gitops-app/overlays/stage
           images:
           - image: nginx
+            tag: ${{ freight.commits.gitops.id }}
       - uses: git-commit
         config:
           path: out
-          message: "Promoted to stage"
+          message: "Promoted to stage: ${{ freight.commits.gitops.id }}"
       - uses: git-push
         config:
           path: out
@@ -112,10 +115,11 @@ spec:
           path: out/apps/gitops-app/overlays/prod
           images:
           - image: nginx
+            tag: ${{ freight.commits.gitops.id }}
       - uses: git-commit
         config:
           path: out
-          message: "Promoted to prod"
+          message: "Promoted to prod: ${{ freight.commits.gitops.id }}"
       - uses: git-push
         config:
           path: out
