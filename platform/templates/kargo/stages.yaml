@@ -29,8 +29,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-      - name: warehouseName
-        value: gitops-repo
       - name: imageRepo
         value: nginx
       steps:
@@ -54,7 +52,6 @@ spec:
             {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
 
             Automated promotion triggered by Kargo.
-            Freight: {{ "${{ ctx.promotion.freight }}" }}
       - uses: git-push
         config:
           path: out
@@ -75,8 +72,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-      - name: warehouseName
-        value: gitops-repo
       - name: imageRepo
         value: nginx
       steps:
@@ -100,7 +95,6 @@ spec:
             {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
 
             Automated promotion triggered by Kargo.
-            Freight: {{ "${{ ctx.promotion.freight }}" }}
       - uses: git-push
         config:
           path: out
@@ -121,8 +115,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-      - name: warehouseName
-        value: gitops-repo
       - name: imageRepo
         value: nginx
       steps:
@@ -146,7 +138,6 @@ spec:
             {{ "${{ ctx.stage }}: Update image tag to ${{ outputs.clone.commits.out }}" }}
 
             Automated promotion triggered by Kargo.
-            Freight: {{ "${{ ctx.promotion.freight }}" }}
       - uses: git-push
         config:
           path: out
