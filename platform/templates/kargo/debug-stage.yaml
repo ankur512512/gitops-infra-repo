@@ -23,4 +23,4 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message: {{ "${{ freight.name }}" }}
+          message: {{ "${{ outputs[\"debug-step\"].commits[\"out\"] }}" }}
