@@ -23,4 +23,5 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message: {{ "${{ vars.commits[\"gitops-repo\"].id }}" }}
+          message:
+            {{ "commit-id: ${{ freight.commits[0].id }}\nwarehouse-commit: ${{ warehouse[\"gitops-repo\"].commits[0].id }}\ncommit-map: ${{ commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}\njust-commit: ${{ commit.id }}" | quote }}
