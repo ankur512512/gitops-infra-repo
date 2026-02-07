@@ -4,18 +4,12 @@ metadata:
   name: gitops-repo
   namespace: gitops-control
 spec:
-  freightCreationPolicy: Automatic
-  interval: 5m0s
   subscriptions:
   - git:
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
       branch: main
-      alias: gitops
       includePaths:
       - apps/gitops-app/base
-      commitSelectionStrategy: NewestFromBranch
-      discoveryLimit: 20
-      strictSemvers: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -43,11 +37,11 @@ spec:
           path: out/apps/gitops-app/overlays/dev
           images:
           - image: nginx
-            tag: {{ "${{ freight.commits.gitops.id }}" }}
+            tag: {{ "${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to dev: ${{ freight.commits.gitops.id }}" | quote }}
+          message: {{ "Promoted to dev: ${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" | quote }}
       - uses: git-push
         config:
           path: out
@@ -79,11 +73,11 @@ spec:
           path: out/apps/gitops-app/overlays/stage
           images:
           - image: nginx
-            tag: {{ "${{ freight.commits.gitops.id }}" }}
+            tag: {{ "${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to stage: ${{ freight.commits.gitops.id }}" | quote }}
+          message: {{ "Promoted to stage: ${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" | quote }}
       - uses: git-push
         config:
           path: out
@@ -115,11 +109,11 @@ spec:
           path: out/apps/gitops-app/overlays/prod
           images:
           - image: nginx
-            tag: {{ "${{ freight.commits.gitops.id }}" }}
+            tag: {{ "${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" }}
       - uses: git-commit
         config:
           path: out
-          message: {{ "Promoted to prod: ${{ freight.commits.gitops.id }}" | quote }}
+          message: {{ "Promoted to prod: ${{ freight.commits[\"https://github.com/ankur512512/gitops-infra-repo.git\"].id }}" | quote }}
       - uses: git-push
         config:
           path: out
