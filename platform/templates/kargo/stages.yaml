@@ -43,12 +43,14 @@ spec:
           path: out/apps/gitops-app/overlays/dev
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
+            tag: {{ "sha-${{ commitFrom(\"app\").ID }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ commitFrom(\"app\").ID }}" }}
+
+            Promoting Freight: {{ "${{ freight.name }}" }}
       - uses: git-push
         config:
           path: out
@@ -81,12 +83,12 @@ spec:
           path: out/apps/gitops-app/overlays/stage
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
+            tag: {{ "sha-${{ commitFrom(\"app\").ID }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ commitFrom(\"app\").ID }}" }}
       - uses: git-push
         config:
           path: out
@@ -119,12 +121,12 @@ spec:
           path: out/apps/gitops-app/overlays/prod
           images:
           - image: ghcr.io/ankur512512/gitops-app-repo
-            tag: {{ "sha-${{ freight.commits.app }}" | quote }}
+            tag: {{ "sha-${{ commitFrom(\"app\").ID }}" | quote }}
       - uses: git-commit
         config:
           path: out
           message: |
-            {{ "${{ ctx.stage }}: Update image tag to sha-${{ freight.commits.app }}" }}
+            {{ "${{ ctx.stage }}: Update image tag to sha-${{ commitFrom(\"app\").ID }}" }}
       - uses: git-push
         config:
           path: out
