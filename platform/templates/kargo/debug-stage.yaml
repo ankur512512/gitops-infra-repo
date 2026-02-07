@@ -23,4 +23,4 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message: ${{ vars.commits["gitops-repo"].id }}
+          message: {{ "${{ vars.commits[\"gitops-repo\"].id }}" }}
