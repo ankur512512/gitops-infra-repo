@@ -4,7 +4,6 @@ metadata:
   name: gitops-repo
   namespace: gitops-control
 spec:
-  project: gitops-control
   subscriptions:
   - git:
       repoURL: https://github.com/ankur512512/gitops-infra-repo.git
@@ -18,21 +17,30 @@ metadata:
   name: dev
   namespace: gitops-control
 spec:
-  project: gitops-control
   requestedFreight:
   - origin:
       kind: Warehouse
       name: gitops-repo
     sources:
       direct: true
-  promotionMechanisms:
-    gitRepoUpdates:
-    - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-      writeBranch: main
-      kustomize:
-        images:
-        - image: nginx
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+          checkout:
+          - branch: main
+      - uses: kustomize-set-image
+        config:
           path: apps/gitops-app/overlays/dev
+          images:
+          - image: nginx
+      - uses: git-commit
+        config:
+          path: .
+          message: "Promoted to dev"
+      - uses: git-push
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -40,8 +48,6 @@ metadata:
   name: stage
   namespace: gitops-control
 spec:
-  project: gitops-control
-  subscriptions:
   requestedFreight:
   - origin:
       kind: Warehouse
@@ -49,14 +55,24 @@ spec:
     sources:
       stages:
       - dev
-  promotionMechanisms:
-    gitRepoUpdates:
-    - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-      writeBranch: main
-      kustomize:
-        images:
-        - image: nginx
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+          checkout:
+          - branch: main
+      - uses: kustomize-set-image
+        config:
           path: apps/gitops-app/overlays/stage
+          images:
+          - image: nginx
+      - uses: git-commit
+        config:
+          path: .
+          message: "Promoted to stage"
+      - uses: git-push
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -64,8 +80,6 @@ metadata:
   name: prod
   namespace: gitops-control
 spec:
-  project: gitops-control
-  subscriptions:
   requestedFreight:
   - origin:
       kind: Warehouse
@@ -73,11 +87,21 @@ spec:
     sources:
       stages:
       - stage
-  promotionMechanisms:
-    gitRepoUpdates:
-    - repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-      writeBranch: main
-      kustomize:
-        images:
-        - image: nginx
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+          checkout:
+          - branch: main
+      - uses: kustomize-set-image
+        config:
           path: apps/gitops-app/overlays/prod
+          images:
+          - image: nginx
+      - uses: git-commit
+        config:
+          path: .
+          message: "Promoted to prod"
+      - uses: git-push
