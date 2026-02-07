@@ -1,0 +1,31 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: debug-context
+  namespace: gitops-control
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gitops-repo
+    sources:
+      direct: true
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        as: clone
+        config:
+          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
+          checkout:
+          - branch: main
+            path: out
+      - uses: git-commit
+        config:
+          path: out
+          message: |
+            FreightID: {{ "${{ ctx.promotion.freight }}" }}
+            FreightAlias: {{ "${{ freight.alias }}" }}
+            CommitMap: {{ "${{ freight.commits }}" }}
+            CommitList: {{ "${{ freight.commits | values }}" }}
+            CtxFreight: {{ "${{ ctx.promotion.freight }}" }}
