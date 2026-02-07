@@ -23,4 +23,5 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message: {{ "${{ (freight.commits | values)[0].id }}" }}
+          message:
+            {{ "WarehouseKey: ${{ freight[\"Warehouse/gitops-repo\"].commits[0].id }}\nAliasKey: ${{ freight.gitops.commits[0].id }}\nDirectFreight: ${{ freight.commits[0].id }}" | quote }}
