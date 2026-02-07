@@ -8,9 +8,9 @@ spec:
   interval: 5m0s
   subscriptions:
   - git:
-      repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-      branch: main
       alias: gitops
+      branch: main
+      repoURL: https://github.com/ankur512512/gitops-infra-repo.git
       includePaths:
       - apps/gitops-app/base
 ---
@@ -55,7 +55,6 @@ spec:
 
             Automated promotion triggered by Kargo.
             Freight: {{ "${{ ctx.promotion.freight }}" }}
-            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
@@ -102,7 +101,6 @@ spec:
 
             Automated promotion triggered by Kargo.
             Freight: {{ "${{ ctx.promotion.freight }}" }}
-            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
@@ -149,7 +147,6 @@ spec:
 
             Automated promotion triggered by Kargo.
             Freight: {{ "${{ ctx.promotion.freight }}" }}
-            Warehouse: {{ "${{ vars.warehouseName }}" }}
       - uses: git-push
         config:
           path: out
