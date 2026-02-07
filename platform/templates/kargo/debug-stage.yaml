@@ -23,30 +23,5 @@ spec:
       - uses: git-commit
         config:
           path: out
-          message: {{ "${{ outputs[\"debug-step\"].commits[\"out\"] }}" }}
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: debug-clone-auto
-  namespace: gitops-control
-spec:
-  requestedFreight:
-  - origin:
-      kind: Warehouse
-      name: gitops-repo
-    sources:
-      direct: true
-  promotionTemplate:
-    spec:
-      steps:
-      - uses: git-clone
-        as: auto-clone
-        config:
-          repoURL: https://github.com/ankur512512/gitops-infra-repo.git
-          checkout:
-          - path: out
-      - uses: git-commit
-        config:
-          path: out
-          message: {{ "AutoCloneCommit: ${{ outputs[\"auto-clone\"].commits[\"out\"] }}" | quote }}
+          message:
+            {{ "Project: ${{ ctx.project }}\nStage: ${{ ctx.stage }}\nVars: ${{ vars | keys }}\nCtx: ${{ ctx | keys }}\nState: ${{ state | keys }}\nOutputs: ${{ outputs | keys }}" | quote }}
