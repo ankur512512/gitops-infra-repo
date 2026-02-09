@@ -5,4 +5,4 @@ resources:
 namespace: gitops-dev
 images:
 - name: ghcr.io/ankur512512/gitops-app-repo
-  newTag: sha-2695aef9c069c1ddfc5d7710cf9418b53e7a1fed
+  newTag: sha-0db4275b9ed49f691bacf87f53de5332a4c54f54
