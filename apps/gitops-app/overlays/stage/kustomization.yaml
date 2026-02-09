@@ -5,3 +5,13 @@ resources:
 namespace: gitops-stage
 images:
 - name: ghcr.io/ankur512512/gitops-app-repo
+patches:
+- target:
+    kind: Deployment
+    name: gitops-app
+  patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+      - name: ENV
+        value: stage

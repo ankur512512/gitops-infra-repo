@@ -5,4 +5,13 @@ resources:
 namespace: gitops-dev
 images:
 - name: ghcr.io/ankur512512/gitops-app-repo
-  newTag: sha-5d2270050501d8acdd1612eab13b45d2b6bb70f6
+patches:
+- target:
+    kind: Deployment
+    name: gitops-app
+  patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/env
+      value:
+      - name: ENV
+        value: dev
