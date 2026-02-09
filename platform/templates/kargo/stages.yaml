@@ -49,8 +49,6 @@ spec:
           path: out
           message: |
             {{ "${{ ctx.stage }}: Update image tag to sha-${{ commitFrom(\"https://github.com/ankur512512/gitops-app-repo.git\").ID }}" }}
-
-            Promoting Freight: {{ "${{ freight.name }}" }}
       - uses: git-push
         config:
           path: out
